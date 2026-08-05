@@ -1,9 +1,7 @@
-## Hi there 👋
+<img width="1000" height="300" alt="image" src="https://github.com/user-attachments/assets/0c656236-3be7-4bf4-9357-d5b5e12a3514" />
 
-<!--
-**CHHHHHH081/CHHHHHH081** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-
-Here are some ideas to get you started:
+# About Me
+## My Status
 
 - 🔭 I’m currently working on ...
 - 🌱 I’m currently learning ...
@@ -13,4 +11,3 @@ Here are some ideas to get you started:
 - 📫 How to reach me: ...
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
--->
