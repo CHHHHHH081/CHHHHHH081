@@ -1,4 +1,4 @@
-name: 3D贡献图
+name: 3D Contribution Graph
 
 on:
   schedule:
@@ -8,13 +8,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: 生成3D贡献图
+    name: Generate 3D Contribution Graph
+
     steps:
       - uses: actions/checkout@v3
         with:
-          # 使用令牌进行检出，以获得推送权限
+          # A PAT (Personal Access Token) with `repo` scope is required.
+          # Add it as a repository secret named TOKEN:
+          # Settings → Secrets and variables → Actions → New repository secret
           token: ${{ secrets.TOKEN }}
-      - name: 生成正确的settings.json目录
+
+      - name: Write settings.json
         run: |
           mkdir -p profile-3d-contrib
           cat > profile-3d-contrib/settings.json << 'EOL'
@@ -35,16 +39,18 @@ jobs:
             ]
           }
           EOL
+
       - uses: yoshi389111/github-profile-3d-contrib@0.7.1
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          USERNAME: zyh3699
-      - name: 提交并推送
+          # Replace YOUR_USERNAME with your GitHub username
+          USERNAME: YOUR_USERNAME
+
+      - name: Commit and push
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add -A .
-          git commit -m "更新3D贡献图" || exit 0
-          # 修改git推送方式，使用正确的身份验证格式
-          git remote set-url origin https://x-access-token:${{ secrets.TOKEN }}@github.com/zyh3699/zyh3699.git
+          git commit -m "Update 3D contribution graph" || exit 0
+          git remote set-url origin https://x-access-token:${{ secrets.TOKEN }}@github.com/YOUR_USERNAME/YOUR_USERNAME.git
           git push origin HEAD:main --force
