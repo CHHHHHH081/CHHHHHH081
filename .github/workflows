@@ -1,0 +1,50 @@
+name: 3D贡献图
+
+on:
+  schedule:
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: 生成3D贡献图
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # 使用令牌进行检出，以获得推送权限
+          token: ${{ secrets.TOKEN }}
+      - name: 生成正确的settings.json目录
+        run: |
+          mkdir -p profile-3d-contrib
+          cat > profile-3d-contrib/settings.json << 'EOL'
+          {
+            "type": "rainbow",
+            "backgroundColor": "#0d1117",
+            "foregroundColor": "#dddddd",
+            "strongColor": "#ffffff",
+            "weakColor": "#888888",
+            "radarColor": "#7C3AED",
+            "growingAnimation": true,
+            "contribColors": [
+              "#161b22",
+              "#2D1B69",
+              "#5B21B6",
+              "#7C3AED",
+              "#06B6D4"
+            ]
+          }
+          EOL
+      - uses: yoshi389111/github-profile-3d-contrib@0.7.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          USERNAME: zyh3699
+      - name: 提交并推送
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A .
+          git commit -m "更新3D贡献图" || exit 0
+          # 修改git推送方式，使用正确的身份验证格式
+          git remote set-url origin https://x-access-token:${{ secrets.TOKEN }}@github.com/zyh3699/zyh3699.git
+          git push origin HEAD:main --force
